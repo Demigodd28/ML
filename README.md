@@ -10,6 +10,7 @@
 1. All the result will restore in a file named : results\_{model}\_{num_layer}l\_{num_epoch}e, such as "result_cnn3_3l10e"  
 2. The result includes *Taining_summary.txt*, *Confusion matrix.png*, *Loss_curve.png*, *Training_time.png*, *Validation_accuracy.png*
 3. CNN training must set parameter in the code, whereas Resnet one set the epoch when compiling.  
+4. Remenber to change the  relative path before compiling.  
 
 
 

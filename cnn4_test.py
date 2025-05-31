@@ -55,7 +55,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # 載入模型
 model = CNN4(num_classes=len(class_names)).to(device)
-model.load_state_dict(torch.load("D:/4_ML/final_project/models/cnn_vehicle_model_4l20e.pth", map_location=device))
+model.load_state_dict(torch.load("D:/4_ML/final_project/models/cnn_model_4l5e.pth", map_location=device))
 model.eval()
 
 # 圖片預處理
@@ -86,6 +86,6 @@ for fname in sorted(os.listdir(img_folder)):
                 print(f"{fname} → {class_names[pred.item()]}")
 accuracy = correct_num / len(os.listdir(img_folder))
 accuracy = round(accuracy, 4)
-with open("D:/4_ML/final_project//results_20250529_4l20e/training_summary.txt", "a", encoding = 'utf-8')as f:
+with open("D:/4_ML/final_project/results_20250529_4l5e/training_summary.txt", "a", encoding = 'utf-8')as f:
     f.write(f"\n\nAccuracy: {100*accuracy}%\n")
 print(f"Accuracy: {100*accuracy}%")

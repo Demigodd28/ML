@@ -1,6 +1,7 @@
 import os
 import torch
 from torchvision import models, transforms
+from torchvision.models import ResNet18_Weights
 from PIL import Image
 import sys
 
@@ -9,8 +10,10 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class_names = ['bikes', 'cars', 'planes', 'scooters', 'ships']
 
-model_path = "D:/4_ML/final_project/models/resnet18_5e_p.pth"
-model = models.resnet18(pretrained=False)
+model_path = "D:/4_ML/final_project/models/resnet18_5e.pth"
+use_pretrained = True
+weights = ResNet18_Weights.DEFAULT if use_pretrained else None
+model = models.resnet18(weights=weights)
 model.fc = torch.nn.Linear(model.fc.in_features, len(class_names))
 model.load_state_dict(torch.load(model_path, map_location=device))
 model.to(device)
@@ -43,6 +46,6 @@ for fname in os.listdir(test_dir):
             print(f"Cant predict with {fname}:{e}")
 accuracy = correct_num / len(os.listdir(test_dir))
 accuracy = round(accuracy, 4)
-with open("D:/4_ML/final_project/results_resnet18_5e_p/training_summary.txt", "a", encoding = 'utf-8')as f:
+with open("D:/4_ML/final_project/results_resnet18_5e/training_summary.txt", "a", encoding = 'utf-8')as f:
     f.write(f"\n\nAccuracy: {100*accuracy}%\n")
 print(f"Accuracy: {100*accuracy}%")

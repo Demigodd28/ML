@@ -40,18 +40,18 @@ class CNN3(torch.nn.Module):
         x = self.classifier(x)
         return x
 
-# 類別對應
+# classes
 class_names = ['bikes', 'cars', 'planes', 'scooters', 'ships']
 
-# 設定裝置
+# GPU
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# 載入模型
+# load model
 model = CNN3(num_classes=len(class_names)).to(device)
 model.load_state_dict(torch.load("./models/cnn_model_3l20e.pth", map_location=device))
 model.eval()
 
-# 圖片預處理
+# transform
 transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
@@ -59,7 +59,6 @@ transform = transforms.Compose([
                         std=[0.229, 0.224, 0.225])
 ])
 
-# 圖片來源路徑
 img_folder = sys.argv[1] if len(sys.argv) > 1 else "./test_images"
 
 correct_num = 0

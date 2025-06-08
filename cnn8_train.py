@@ -10,6 +10,7 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from sklearn.metrics import confusion_matrix, classification_report, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
+from cnn_models import CNN8
 from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -38,9 +39,9 @@ val_transform = transforms.Compose([
 ])
 
 # directories
-train_dir = 'D:/4_ML/final_project/dataset_split/train'
-val_dir = 'D:/4_ML/final_project/dataset_split/val'
-results_dir = f'D:/4_ML/final_project/results_{datetime.date.today()}'
+train_dir = 'C:/Users/jesse/NTNU/4_ML/dataset_split/train'
+val_dir = 'C:/Users/jesse/NTNU/4_ML/dataset_split/val'
+results_dir = f'C:/Users/jesse/NTNU/4_ML/results_{datetime.date.today()}'
 os.makedirs(results_dir, exist_ok=True)
 summary_path = os.path.join(results_dir, "training_summary.txt")
 
@@ -55,76 +56,6 @@ val_loader = DataLoader(val_data, batch_size=64, shuffle=False)
 # class
 class_names = train_data.classes
 print("Classes:", class_names)
-
-# ------------------------------------define the CNN model------------------------------------
-class CNN8(nn.Module):  # 8-layer CNN with Dropout
-    def __init__(self, num_classes):
-        super(CNN8, self).__init__()
-
-        self.features = nn.Sequential(
-            # Block 1: 3 → 32
-            nn.Conv2d(3, 32, kernel_size=3, padding=1),
-            nn.BatchNorm2d(32),
-            nn.ReLU(),
-            nn.Dropout(0.2),
-            nn.Conv2d(32, 32, kernel_size=3, padding=1),
-            nn.BatchNorm2d(32),
-            nn.ReLU(),
-            nn.MaxPool2d(2),  # 224 → 112
-
-            # Block 2: 32 → 64
-            nn.Conv2d(32, 64, kernel_size=3, padding=1),
-            nn.BatchNorm2d(64),
-            nn.ReLU(),
-            nn.Dropout(0.2),
-            nn.Conv2d(64, 64, kernel_size=3, padding=1),
-            nn.BatchNorm2d(64),
-            nn.ReLU(),
-            nn.MaxPool2d(2),  # 112 → 56
-
-            # Block 3: 64 → 128
-            nn.Conv2d(64, 128, kernel_size=3, padding=1),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            nn.Dropout(0.2),
-            nn.Conv2d(128, 128, kernel_size=3, padding=1),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            nn.MaxPool2d(2),  # 56 → 28
-
-            # Block 4: 128 → 256
-            nn.Conv2d(128, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-            nn.Dropout(0.2),
-            nn.Conv2d(256, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-            nn.MaxPool2d(2)   # 28 → 14
-        )
-
-        self._to_linear = None
-        self._get_flatten_size()
-
-        self.classifier = nn.Sequential(
-            nn.Linear(self._to_linear, 256),
-            nn.ReLU(),
-            nn.Dropout(0.5),
-            nn.Linear(256, num_classes)
-        )
-
-    def _get_flatten_size(self):
-        with torch.no_grad():
-            x = torch.zeros(1, 3, 224, 224)
-            x = self.features(x)
-            self._to_linear = x.view(1, -1).shape[1]
-
-    def forward(self, x):
-        x = self.features(x)
-        x = x.view(x.size(0), -1)
-        x = self.classifier(x)
-        return x
-
 
 # if GPU
 model = CNN8(num_classes=len(class_names)).to(device)
@@ -207,7 +138,7 @@ for epoch in range(num_epochs):
             break
 
 # save model
-torch.save(model.state_dict(), "D:/4_ML/final_project/models/cnn_model_4l0e.pth")
+torch.save(model.state_dict(), "C:/Users/jesse/NTNU/4_ML/models/cnn_model_4l0e.pth")
 print("Model saved.")
 
 #---------------------plot training loss and validation accuracy---------------------
@@ -227,8 +158,8 @@ with torch.no_grad():
 with open(summary_path, "a", encoding='utf-8') as f:
     f.write("\n\nClassification Report:\n")
     f.write(classification_report(all_labels, all_preds, target_names=class_names))
-    print("\nClassification Report:")
-    print(classification_report(all_labels, all_preds, target_names=class_names))
+print("\nClassification Report:")
+print(classification_report(all_labels, all_preds, target_names=class_names))
 
 # Confusion Matrix
 cm = confusion_matrix(all_labels, all_preds)

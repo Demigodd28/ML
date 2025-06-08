@@ -10,6 +10,7 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from sklearn.metrics import confusion_matrix, classification_report, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
+from cnn_models import CNN3
 from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -55,51 +56,6 @@ val_loader = DataLoader(val_data, batch_size=64, shuffle=False)
 # class
 class_names = train_data.classes
 print("Classes:", class_names)
-
-# ------------------------------------define the CNN model------------------------------------
-class CNN3(nn.Module):#3 layers cnn
-    def __init__(self, num_classes):
-        super(CNN3, self).__init__()
-
-        self.features = nn.Sequential(
-            nn.Conv2d(3, 32, kernel_size=3, padding=1),  # Conv1
-            nn.BatchNorm2d(32),
-            nn.ReLU(),
-            nn.MaxPool2d(2),  # 224 → 112
-
-            nn.Conv2d(32, 64, kernel_size=3, padding=1),  # Conv2
-            nn.BatchNorm2d(64),
-            nn.ReLU(),
-            nn.MaxPool2d(2),  # 112 → 56
-
-            nn.Conv2d(64, 128, kernel_size=3, padding=1),  # Conv3
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            nn.MaxPool2d(2),  # 56 → 28
-        )
-
-        # calculate the size of the flattened layer
-        self._to_linear = None
-        self._get_flatten_size()
-
-        self.classifier = nn.Sequential(
-            nn.Linear(self._to_linear, 256),
-            nn.ReLU(),
-            nn.Dropout(0.5),
-            nn.Linear(256, num_classes)
-        )
-
-    def _get_flatten_size(self):
-        with torch.no_grad():
-            x = torch.zeros(1, 3, 224, 224)
-            x = self.features(x)
-            self._to_linear = x.view(1, -1).shape[1]
-
-    def forward(self, x):
-        x = self.features(x)
-        x = x.view(x.size(0), -1)  # Flatten
-        x = self.classifier(x)
-        return x
 
 # if GPU
 model = CNN3(num_classes=len(class_names)).to(device)

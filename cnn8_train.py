@@ -23,7 +23,7 @@ print("Device in use:", device)
 train_transform = transforms.Compose([
     transforms.RandomResizedCrop(224),
     transforms.RandomHorizontalFlip(),#randomly flip the image horizontally
-    transforms.RandomRotation(10),# randomly rotate the image by 15 degrees
+    transforms.RandomRotation(10),# randomly rotate the image by 10 degrees
     transforms.ColorJitter(brightness=0.2, contrast=0.1, saturation=0.1, hue=0.1),# randomly change the brightness, contrast, saturation, and hue
     transforms.ToTensor(),
     transforms.Normalize(mean=[0.485, 0.456, 0.406],
@@ -41,9 +41,9 @@ val_transform = transforms.Compose([
 # directories
 train_dir = 'C:/Users/jesse/NTNU/4_ML/dataset_split/train'
 val_dir = 'C:/Users/jesse/NTNU/4_ML/dataset_split/val'
-results_dir = f'C:/Users/jesse/NTNU/4_ML/results_{datetime.date.today()}'
+results_dir = f'C:/Users/jesse/NTNU/4_ML/results_cnn_8l_20ep'
 os.makedirs(results_dir, exist_ok=True)
-summary_path = os.path.join(results_dir, "training_summary.txt")
+summary_path = os.path.join(results_dir, "cnn_8l_20ep.txt")
 
 # load dataset
 train_data = datasets.ImageFolder(train_dir, transform=train_transform)
@@ -66,7 +66,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.1) #learning rate shrink 0.1 every 5 epochs
 
 #---------------------train and validate---------------------
-num_epochs = 10
+num_epochs = 20
 
 train_losses = []
 val_accuracies = []
@@ -78,7 +78,7 @@ counter = 0
 early_stop = False
 
 with open(summary_path, "w", encoding='utf-8') as f:
-    f.write(f"CNN training Summary\t{datetime.date.today()}\n\n")
+    f.write(f"CNN 8 Layers 20 Epoch training Summary\t{datetime.date.today()}\n\n")
     f.write("Classes: " + ", ".join(class_names) + "\n\n")
     f.write(f"Number of epochs: {num_epochs}\n")
 
@@ -129,7 +129,7 @@ for epoch in range(num_epochs):
     if accuracy > best_accuracy:
         best_accuracy = accuracy
         counter = 0
-        torch.save(model.state_dict(), "cnn_vehicle_model_best.pth")
+        torch.save(model.state_dict(), "C:/Users/jesse/NTNU/4_ML/models/cnn_model_best.pth")
     else:
         counter += 1
         if counter >= patience:
@@ -138,7 +138,7 @@ for epoch in range(num_epochs):
             break
 
 # save model
-torch.save(model.state_dict(), "C:/Users/jesse/NTNU/4_ML/models/cnn_model_4l0e.pth")
+torch.save(model.state_dict(), "C:/Users/jesse/NTNU/4_ML/models/cnn_model_8l20e.pth")
 print("Model saved.")
 
 #---------------------plot training loss and validation accuracy---------------------
@@ -195,20 +195,6 @@ save_path = os.path.join(results_dir, 'Validation_accuracy.png')
 plt.savefig(save_path)
 
 plt.clf()
-
-# Convergence Plot（也可理解為 loss 降低趨勢）
-# plt.plot(range(len(train_losses)), train_losses, label='Training Loss')
-# plt.plot(range(len(val_accuracies)), [1 - acc for acc in val_accuracies], label='1 - Val Accuracy')
-# plt.title('Convergence Plot')
-# plt.xlabel('Epoch')
-# plt.ylabel('Value')
-# plt.legend()
-# plt.grid(True)
-# # plt.show()
-# save_path = os.path.join(results_dir, 'Convergence_plot.png')
-# plt.savefig(save_path)
-
-# plt.clf()
 
 # training time per epoch
 plt.plot(epoch_times)

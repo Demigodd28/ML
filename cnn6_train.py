@@ -21,9 +21,9 @@ print("Device in use:", device)
 # === 資料路徑 ===
 train_dir = 'C:/Users/jesse/NTNU/4_ML/dataset_split/train'
 val_dir = 'C:/Users/jesse/NTNU/4_ML/dataset_split/val'
-results_dir = f'C:/Users/jesse/NTNU/4_ML/results_{datetime.date.today()}'
+results_dir = f'C:/Users/jesse/NTNU/4_ML/results_cnn_6l_20ep'
 os.makedirs(results_dir, exist_ok=True)
-summary_path = os.path.join(results_dir, "cnn_6l_10ep.txt")
+summary_path = os.path.join(results_dir, "cnn_6l_20ep.txt")
 
 # training transform（Augmentation）
 train_transform = transforms.Compose([
@@ -64,7 +64,7 @@ best_accuracy = 0.0
 counter = 0
 
 with open(summary_path, "w", encoding='utf-8') as f:
-    f.write(f"CNN6 Training Summary\t{datetime.today().date()}\n\n")
+    f.write(f"CNN 6 Layers 20 Epoch Training Summary\t{datetime.today().date()}\n\n")
     f.write("Classes: " + ", ".join(class_names) + "\n\n")
     f.write(f"Number of epochs: {num_epochs}\n")
 
@@ -117,7 +117,7 @@ for epoch in range(num_epochs):
             break
 
 # save model
-torch.save(model.state_dict(), 'C:/Users/jesse/NTNU/4_ML/models/cnn_model_6l_final.pth')
+torch.save(model.state_dict(), 'C:/Users/jesse/NTNU/4_ML/models/cnn_model_6l_20ep.pth')
 print("Model saved.")
 
 #---------------------plot training loss and validation accuracy---------------------

@@ -3,8 +3,8 @@
 **Model** : CNN, ResNet18  
 |Model|Train|Test|
 |---|---|---|
-|CNN 3L|[cnn3_train.py](https://github.com/Demigodd28/ML/blob/main/cnn3_train.py)|[cnn3_test.py](https://github.com/Demigodd28/ML/blob/main/cnn3_test.py)|
-|CNN 4L|[cnn4_train.py](https://github.com/Demigodd28/ML/blob/main/cnn4_train.py)|[cnn4_test.py](https://github.com/Demigodd28/ML/blob/main/cnn4_test.py)|  
+|CNN 3L|[cnn3_train.py](https://github.com/Demigodd28/ML/blob/main/cnn3_train.py)||
+|CNN 4L|[cnn4_train.py](https://github.com/Demigodd28/ML/blob/main/cnn4_train.py)|  
 |CNN 6L|[cnn6_train.py](https://github.com/Demigodd28/ML/blob/main/cnn6_train.py)|  
 |CNN 8L|[cnn8_train.py](https://github.com/Demigodd28/ML/blob/main/cnn8_train.py)|  
 |ResNet18|[resnet_train.py](https://github.com/Demigodd28/ML/blob/main/resnet_train.py)|[resnet18_test.py](https://github.com/Demigodd28/ML/blob/main/resnet18_test.py)|  

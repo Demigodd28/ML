@@ -1,6 +1,6 @@
 # Machine Learning
 **Subject** : Image Classification  
-**Model** : CNN, ResNet18  
+**Model** : CNN, ResNet18, VGG16  
 |Model|Train|Test|
 |---|---|---|
 |CNN 3L|[cnn3_train.py](https://github.com/Demigodd28/ML/blob/main/cnn3_train.py)|[cnn_test.py](https://github.com/Demigodd28/ML/blob/main/cnn_test.py)|

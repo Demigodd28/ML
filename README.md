@@ -8,6 +8,7 @@
 |CNN 6L|[cnn6_train.py](https://github.com/Demigodd28/ML/blob/main/cnn6_train.py)|  
 |CNN 8L|[cnn8_train.py](https://github.com/Demigodd28/ML/blob/main/cnn8_train.py)|  
 |ResNet18|[resnet_train.py](https://github.com/Demigodd28/ML/blob/main/resnet_train.py)|[resnet18_test.py](https://github.com/Demigodd28/ML/blob/main/resnet18_test.py)|  
+|VGG16|[vgg.py](https://github.com/Demigodd28/ML/blob/main/vgg.py)|
 
 1. All the result will restore in a file named : results\_{model}\_{num_layer}l\_{num_epoch}e, such as "result_cnn3_3l10e"  
 2. The result includes *Taining_summary.txt*, *Confusion matrix.png*, *Loss_curve.png*, *Training_time.png*, *Validation_accuracy.png*

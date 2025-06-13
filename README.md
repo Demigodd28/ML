@@ -14,6 +14,8 @@
 3. CNN training must set parameter in the code, whereas Resnet one set the epoch when compiling.  
 4. Remember to change the  relative path before compiling.  
 5. Models of CNN are in [cnn_models.py](https://github.com/Demigodd28/ML/blob/main/cnn_models.py)
+6. [plot.py](https://github.com/Demigodd28/ML/blob/main/plot.py) is for plotting **Training Loss** and **Validation Accuracy**
+7. [plot_1.py](https://github.com/Demigodd28/ML/blob/main/plot_1.py) is for plotting **Barchart**(Accuracy vs F1) and **Heatmap**(Precision, Recall, F1)
 
 
 
